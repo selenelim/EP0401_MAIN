@@ -1,0 +1,15 @@
+import RPi.GPIO as GPIO
+from time import sleep 
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(4,GPIO.OUT)
+
+my_PWM(26,50)
+while(True):
+  my_pwm.start(3)        #3% duty cycle
+  print('duty cycle:',3)  #3 o'clock position
+  sleep(4)
+  my_pwm.start(13)        #13% duty cycle
+  print('duty cycle:',13) #9 o'clock position
+  sleep(4)                #gives time for servo to move
