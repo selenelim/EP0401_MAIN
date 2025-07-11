@@ -1,0 +1,55 @@
+import RPi.GPIO as GPIO
+from time import sleep
+import sys
+from mfrc522 import SimpleMFRC522
+
+GPIO.setwarnings(False)
+reader = SimpleMFRC522()
+auth = []
+
+while True:
+  print("Hold card near reader to register it")
+  id - reader.read_id()
+  id = str(id)
+  f = open("authlist.txt","a+")
+  f = open("authlist.txt","r+")
+  if f.mode == "r+":
+    auth=f.read()
+  if id not in auth:
+    f.write(id)
+    f.write('\n')
+    f.close()
+    pos=auth.count('\n')
+    print("New card with UID",id," detected; registered as entry #",pos)
+  else:
+    number = auth.split('\n')
+    pos = number.index(id)
+    print("Card with UID",id,"already egistered as entry #",pos)
+sleep(2)
+#code to scan ID of card
+#while True:
+#  print("hold card near reader to check if it's in the data base")
+#  id=reader.read_id()
+#  id=str(id)
+#  f=open("authlist.txt","r+")
+#
+#  if id in auth:
+#    number = auth.split('\n')
+#    pos = number.index(id)
+#    print("Card with UID",id,"is in the database entry #",pos,"; access granted")
+#else:
+#    print("Card with UID",id,"not found in database; access denied")
+#sleep(2)
+
+#code to clear database
+#resp = input ("Enter y to clear database: ")
+#if resp is 'y':
+#  print("Clearing database...")
+#  f=open("authlist.txt","r+")
+#  auth=f.read()
+#  num=auth.count('\n')               #counts no of UIDs in list
+#  for n in range(0,num):
+#    print("Deleted entry#",n)
+#  f=open("authlist.txt","W")         #recreates an empty authlist.txt file
+#  f.close()
+#  print("Database cleared")
