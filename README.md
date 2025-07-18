@@ -10,6 +10,6 @@ Wi Fi module
 
 Servo motor (Tested ✓)
 
-LCD display
+LCD display (Tested ✓)
 
 Buzzer (Tested ✓)
