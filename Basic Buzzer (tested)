@@ -8,6 +8,6 @@ GPIO.setup(18,GPIO.OUT)
 PWM = GPIO.PWM(18,100) #sets 100HZ PWM at GPIO 18
 
 while True:
-  for i in range (0,101,20)
+  for i in range (0,101,20):
     PWM.start(i)
     sleep(0.5)
