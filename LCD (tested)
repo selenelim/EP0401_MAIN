@@ -1,0 +1,13 @@
+import I2C_LCD_driver
+from time import sleep
+
+LCD = I2C_LCD_driver.lcd()
+sleep(0.5)
+LCD.backlight(0)
+sleep(0.5)
+LCD.backlight(1)
+LCD.lcd_display_string("Hello",1)            #writes on line 1
+LCD.lcd_display_string("Address = 0x3f",2,2) #writes on line 2
+
+sleep(5)
+LCD.lcd_clear() #clears display
