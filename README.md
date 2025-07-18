@@ -1,6 +1,6 @@
 # EP0401_MAIN
 
-Key pad 
+Key pad (Tested ✓)
 
 RFID reader (Tested ✓)
 
@@ -8,7 +8,7 @@ Camera
 
 Wi Fi module 
 
-Servo motor
+Servo motor (Tested ✓)
 
 LCD display
 
