@@ -1,0 +1,209 @@
+import RPi.GPIO as GPIO
+import I2C_LCD_driver
+import sys
+from mfrc522 import SimpleMFRC522
+from time import sleep
+
+LCD = I2C_LCD_driver.lcd()
+reader = SimpleMFRC522()
+auth = []
+my_PWM(26,50) #
+PWM = GPIO.PWM(18,100) #sets 100HZ PWM at GPIO 18 for buzzer
+MATRIX =[[1,2,3],
+         [4,5,6],
+         [7,8,9],
+         ['*',0,'#']]
+ROW=[6,20,19,13]                                     #row pins
+COL=[12,5,16]                                        #columm pins
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18,GPIO.OUT)
+GPIO.setup(4,GPIO.OUT)
+for i in range(3):  #setting all COL bits to O/P and all ROW bits to I/P
+    GPIO.setup(COL[i],GPIO.OUT)
+    GPIO.output(COL[i],1)
+for j in range(4):
+    GPIO.setup(ROW[j],GPIO.IN,pull_up_down=GPIO.PUD_UP)
+
+
+def buzzer():
+    for i in range (0,101,20):
+        PWM.start(i)
+        sleep(0.5)
+
+def Keypad():
+
+    #scanning keypad
+    while(x<5):
+        for i in range(3):
+            GPIO.output(COL[i],0)                           #pull one column pin low
+            for j in range(4):                              #checks which row became low
+                if GPIO.input(ROW[j])==0:            
+                    print(MATRIX[j][i])                     #prints if there's a key press
+                    codeout = MATRIX[j][i] * (10**x)
+                    x = x + 1
+                    LCD_DisplaySelectDrink(codeout)
+                    while GPIO.input(ROW[j])==0:             #debounce
+                        sleep(0.1)                          
+            GPIO.output(COL[i],1)                           #writes a default vlaue of 1
+    x = 0
+    return codeout
+
+def LCD_DisplaySelectDrink(LCDinput):
+    LCD.lcd_clear() #clears display
+    sleep(0.5)
+    LCD.backlight(0)
+    sleep(0.5)
+    LCD.backlight(1)
+    LCD.lcd_display_string("Hello",1)            #writes on line 1
+    LCD.lcd_display_string("Input = 0x3f",LCDinput,2) #writes on line 2
+
+def LCD_DisplayRFID1(cost):
+    LCD.lcd_clear() #clears display
+    sleep(0.5)
+    LCD.backlight(0)
+    sleep(0.5)
+    LCD.backlight(1)
+    LCD.lcd_display_string("Card accepted",1)            #writes on line 1
+    LCD.lcd_display_string("0x3f has been deducted",cost,1)            #writes on line 1
+    LCD.lcd_display_string("Enjoy your Drink <3",2)            #writes on line 2
+
+def LCD_DisplayRFID2():
+    LCD.lcd_clear() #clears display
+    sleep(0.5)
+    LCD.backlight(0)
+    sleep(0.5)
+    LCD.backlight(1)
+    LCD.lcd_display_string("Card Not in database",1)            #writes on line 1
+    sleep (2)
+    LCD.lcd_clear() #clears display
+    LCD.lcd_display_string("Select 1 to regster card",1)            #writes on line 1
+    LCD.lcd_display_string("Select 2 to restart",2)            #writes on line 2
+
+def LCD_DisplayRFID3(cost):
+    LCD.lcd_clear() #clears display
+    sleep(0.5)
+    LCD.backlight(0)
+    sleep(0.5)
+    LCD.backlight(1)
+    LCD.lcd_display_string("Card Sucessfully registered",1)            #writes on line 1
+    sleep(2)
+    LCD.lcd_clear() #clears display
+    LCD.lcd_display_string("0x3f has been deducted",cost,1)            #writes on line 1
+    LCD.lcd_display_string("Enjoy your Drink <3",2)            #writes on line 2
+
+def LCD_DisplayDrinkCost(LCDinput):
+    LCD.lcd_clear() #clears display
+    sleep(0.5)
+    LCD.backlight(0)
+    sleep(0.5)
+    LCD.backlight(1)
+    LCD.lcd_display_string("Hello",1)            #writes on line 1
+    LCD.lcd_display_string("cost of drink = 0x3f",LCDinput,2) #writes on line 2
+
+def RFID_Register(cost):
+    #while True:
+      print("Hold card near reader to register it")
+      id - reader.read_id()
+      id = str(id)
+      f = open("authlist.txt","a+")
+      f = open("authlist.txt","r+")
+      if f.mode == "r+":
+        auth=f.read()
+      if id not in auth:
+        f.write(id)
+        f.write('\n')
+        f.close()
+        pos=auth.count('\n')
+        print("New card with UID",id," detected; registered as entry #",pos)
+        LCD_DisplayRFID3(cost)
+      else:
+        number = auth.split('\n')
+        pos = number.index(id)
+        print("Card with UID",id,"already egistered as entry #",pos)
+      sleep(2)
+
+def RFID_Read(cost):
+    #code to scan ID of card
+    #while True:
+      print("hold card near reader to check if it's in the data base")
+      id=reader.read_id()
+      id=str(id)
+      f=open("authlist.txt","r+")
+      no = 0
+    
+      if id in auth:
+        number = auth.split('\n')
+        pos = number.index(id)
+        print("Card with UID",id,"is in the database entry #",pos,"; access granted")
+        LCD_DisplayRFID1()
+      else:
+        print("Card with UID",id,"not found in database; access denied")
+        LCD_DisplayRFID2(cost)
+        KeypadInput = Keypad()
+        if KeypadInput is 1:
+            RFID_Register(cost)
+        elif KeypadInput is 2:
+            no = 1
+        sleep(2)
+      return no
+
+def RFID_Clear():
+    #code to clear database
+    resp = input ("Enter y to clear database: ")
+    if resp is 'y':
+      print("Clearing database...")
+      f=open("authlist.txt","r+")
+      auth=f.read()
+      num=auth.count('\n')               #counts no of UIDs in list
+      for n in range(0,num):
+        print("Deleted entry#",n)
+      f=open("authlist.txt","W")         #recreates an empty authlist.txt file
+      f.close()
+    print("Database cleared")
+
+def Servo_Motor():
+    #while(True):
+        my_pwm.start(3)        #3% duty cycle
+        print('duty cycle:',3)  #3 o'clock position
+        sleep(4)
+        my_pwm.start(13)        #13% duty cycle
+        print('duty cycle:',13) #9 o'clock position
+        sleep(4)                #gives time for servo to move
+
+def special():
+    Servo_Motor()
+
+while True:
+    Proceed = 0
+    no = 0
+    while Proceed is 0:
+        codein = Keypad()
+        LCD.lcd_clear() #clears display
+        if codein is 1:
+            cost = 3
+            LCD_DisplayDrinkCost(cost)
+            Proceed = 1
+        elif codein is 2:
+            cost = 4
+            LCD_DisplayDrinkCost(cost)
+            Proceed = 1
+        elif codein is 3:
+            cost = 5
+            LCD_DisplayDrinkCost(cost)
+            Proceed = 1
+        elif codein is 4:
+            cost = 3 
+            LCD_DisplayDrinkCost(cost)
+            Proceed = 1
+        elif codein is 1111:               #opens back of vending machine
+            special()
+            Proceed = 1
+        elif codein is 9999:                #clears RFID database
+            RFID_Clear()
+            Proceed = 0
+        else:
+            Proceed = 0
+
+    no = RFID_Read(cost)
