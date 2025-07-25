@@ -50,7 +50,7 @@ def Keypad():
     x = 0
     return codeout
 
-def LCD_DisplaySelectDrink(LCDinput):
+def LCD_DisplaySelectDrink(LCDinput):                      #select drink
     LCD.lcd_clear() #clears display
     sleep(0.5)
     LCD.backlight(0)
@@ -59,7 +59,7 @@ def LCD_DisplaySelectDrink(LCDinput):
     LCD.lcd_display_string("Hello",1)            #writes on line 1
     LCD.lcd_display_string("Input = 0x3f",LCDinput,2) #writes on line 2
 
-def LCD_DisplayRFID1(cost):
+def LCD_DisplayRFID1(cost):                             #card accepted
     LCD.lcd_clear() #clears display
     sleep(0.5)
     LCD.backlight(0)
@@ -70,7 +70,7 @@ def LCD_DisplayRFID1(cost):
     LCD.lcd_display_string("0x3f has been deducted",cost,1)            #writes on line 1
     LCD.lcd_display_string("Enjoy your Drink <3",2)            #writes on line 2
 
-def LCD_DisplayRFID2():
+def LCD_DisplayRFID2():                                        #card not registered
     LCD.lcd_clear() #clears display
     sleep(0.5)
     LCD.backlight(0)
@@ -82,7 +82,7 @@ def LCD_DisplayRFID2():
     LCD.lcd_display_string("Select 1 to regster card",1)            #writes on line 1
     LCD.lcd_display_string("Select 2 to restart",2)            #writes on line 2
 
-def LCD_DisplayRFID3(cost):
+def LCD_DisplayRFID3(cost):                                    #register card
     LCD.lcd_clear() #clears display
     sleep(0.5)
     LCD.backlight(0)
@@ -94,7 +94,7 @@ def LCD_DisplayRFID3(cost):
     LCD.lcd_display_string("0x3f has been deducted",cost,1)            #writes on line 1
     LCD.lcd_display_string("Enjoy your Drink <3",2)            #writes on line 2
 
-def LCD_DisplayDrinkCost(LCDinput):
+def LCD_DisplayDrinkCost(LCDinput):                            #displays drink cost
     LCD.lcd_clear() #clears display
     sleep(0.5)
     LCD.backlight(0)
