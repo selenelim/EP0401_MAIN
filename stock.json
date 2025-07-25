@@ -1,0 +1,22 @@
+{
+  "Coke": {
+    "price": 5,
+    "stock": 2
+  },
+  "Sprite": {
+    "price": 4,
+    "stock": 6
+  },
+  "Iced Tea": {
+    "price": 6,
+    "stock": 8
+  },
+  "Green Tea": {
+    "price": 5,
+    "stock": 5
+  },
+  "Mineral Water": {
+    "price": 3,
+    "stock": 3
+  }
+}
