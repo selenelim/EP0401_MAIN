@@ -66,6 +66,7 @@ def LCD_DisplayRFID1(cost):
     sleep(0.5)
     LCD.backlight(1)
     LCD.lcd_display_string("Card accepted",1)            #writes on line 1
+    LCD.lcd_clear() #clears display
     LCD.lcd_display_string("0x3f has been deducted",cost,1)            #writes on line 1
     LCD.lcd_display_string("Enjoy your Drink <3",2)            #writes on line 2
 
