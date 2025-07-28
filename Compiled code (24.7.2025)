@@ -138,7 +138,7 @@ def RFID_Read(cost):
         number = auth.split('\n')
         pos = number.index(id)
         print("Card with UID",id,"is in the database entry #",pos,"; access granted")
-        LCD_DisplayRFID1()
+        LCD_DisplayRFID1(cost)
       else:
         print("Card with UID",id,"not found in database; access denied")
         LCD_DisplayRFID2(cost)
