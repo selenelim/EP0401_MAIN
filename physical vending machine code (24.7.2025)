@@ -11,7 +11,6 @@ GPIO.setmode(GPIO.BCM) #choose BCM mode
 GPIO.setwarnings(False)
 GPIO.setup(26,GPIO.OUT) #set GPIO 26 as output
 PWM=GPIO.PWM(26,50) #set 50Hz PWM output at GPIO26
-PWM = GPIO.PWM(18,100) #sets 100HZ PWM at GPIO 18 for buzzer
 MATRIX =[[1,2,3],
          [4,5,6],
          [7,8,9],
@@ -28,12 +27,6 @@ for i in range(3):  #setting all COL bits to O/P and all ROW bits to I/P
     GPIO.output(COL[i],1)
 for j in range(4):
     GPIO.setup(ROW[j],GPIO.IN,pull_up_down=GPIO.PUD_UP)
-
-
-def buzzer():
-    for i in range (0,101,20):
-        PWM.start(i)
-        sleep(0.5)
 
 def Keypad():
 
