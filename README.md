@@ -12,4 +12,4 @@ Servo motor (Tested ✓)
 
 LCD display (Tested ✓)
 
-Buzzer (Tested ✓)
+Buzzer (Tested ✓)(not included)
