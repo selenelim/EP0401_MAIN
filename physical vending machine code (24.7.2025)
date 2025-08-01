@@ -7,7 +7,10 @@ from time import sleep
 LCD = I2C_LCD_driver.lcd()
 reader = SimpleMFRC522()
 auth = []
-my_pwm(26,50) #changed from PWM to pwm
+GPIO.setmode(GPIO.BCM) #choose BCM mode
+GPIO.setwarnings(False)
+GPIO.setup(26,GPIO.OUT) #set GPIO 26 as output
+PWM=GPIO.PWM(26,50) #set 50Hz PWM output at GPIO26
 PWM = GPIO.PWM(18,100) #sets 100HZ PWM at GPIO 18 for buzzer
 MATRIX =[[1,2,3],
          [4,5,6],
@@ -166,12 +169,12 @@ def RFID_Clear():
 
 def Servo_Motor():
     #while(True):
-        my_pwm.start(3)        #3% duty cycle
-        print('duty cycle:',3)  #3 o'clock position
-        sleep(4)
-        my_pwm.start(13)        #13% duty cycle
-        print('duty cycle:',13) #9 o'clock position
-        sleep(4)                #gives time for servo to move
+    PWM.start(3) #3% duty cycle
+    print('duty cycle:', 3) #3 o'clock position
+    sleep(4) #allow time for movement
+    PWM.start(12) #13% duty cycle
+    print('duty cycle:', 12) #9 o'clock position
+    sleep(4) #allow time for movement
 
 def special():
     Servo_Motor()
