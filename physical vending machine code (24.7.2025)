@@ -7,7 +7,7 @@ from time import sleep
 LCD = I2C_LCD_driver.lcd()
 reader = SimpleMFRC522()
 auth = []
-my_PWM(26,50) #
+my_pwm(26,50) #changed from PWM to pwm
 PWM = GPIO.PWM(18,100) #sets 100HZ PWM at GPIO 18 for buzzer
 MATRIX =[[1,2,3],
          [4,5,6],
