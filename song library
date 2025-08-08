@@ -24,33 +24,48 @@ output = Pin(0, Pin.OUT)
 buzzer = PWM2(output)
 buzzer.duty_u16(0)
 buzzer.freq(300)
+#all the different sound 
 correct = [
   C6
   C7
 ]
+
 incorrect = [
   C7
   C6
 ]
+
 School_bell = [
   E7
+  0
   C7
+  0
   D7
+  0
   B6
   0
   0
+  0
+  0
   B6
+  0
   D7
+  0
   E7
+  0
   C7
+]
+elevator music = [
+  
 ]
 song = [
   0
 ]
 
+#code to plays the song
 while True: 
   if signal_intake.value() == 1:
-    for i in song: 
+    for i in song:  #plays "song" can be replaced with other songs like "school bell"
       if i == 0:
         buzzer.duty_u16(0)  
       else:  
