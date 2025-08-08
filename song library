@@ -26,10 +26,26 @@ buzzer.duty_u16(0)
 buzzer.freq(300)
 correct = [
   C6
-  C8
+  C7
+]
+incorrect = [
+  C7
+  C6
+]
+School_bell = [
+  E7
+  C7
+  D7
+  B6
+  0
+  0
+  B6
+  D7
+  E7
+  C7
 ]
 song = [
-  
+  0
 ]
 
 while True: 
