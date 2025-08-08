@@ -55,17 +55,54 @@ School_bell = [
   0
   C7
 ]
-elevator music = [
-  
-]
-song = [
+
+WindowsOFFmusic = [
+  F6
   0
+  E6
+  0
+  0
+  C6
+  0
+  0
+  0
+  D6
+]
+
+DefaultSong = [
+  E6
+  0
+  G6
+  0
+  0
+  E6
+  G6
+  0
+  0
+  E6
+  0
+  G6
+  0
+  E6
+  E6
+  0
+  G6
+  0
+  C6
+  D6
+  C6
+  D6
+  C6
+  D6
+  C6
+  C6
+  D6
 ]
 
 #code to plays the song
 while True: 
   if signal_intake.value() == 1:
-    for i in song:  #plays "song" can be replaced with other songs like "school bell"
+    for i in DefaultSong:  #plays "DefaultSong" can be replaced with other songs like "school bell"
       if i == 0:
         buzzer.duty_u16(0)  
       else:  
