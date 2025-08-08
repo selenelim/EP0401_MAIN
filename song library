@@ -25,6 +25,11 @@ buzzer = PWM2(output)
 buzzer.duty_u16(0)
 buzzer.freq(300)
 #all the different sound 
+Alarm = [
+  C8
+  C7
+]
+
 correct = [
   C6
   C7
