@@ -1,0 +1,43 @@
+//credits to @Defkie 
+from machine import Pin, PWM2
+import utime
+
+C6 = 1046
+D6 = 1175
+E6 = 1319
+F6 = 1397
+G6 = 1568
+A6 = 1760
+AS6 = 1865
+B6 = 1976
+C7 = 2093
+D7 = 2349
+E7 = 2637
+F7 = 2794
+G7 = 3136
+A7 = 3520
+B7 = 3951
+C8 = 4186
+
+signal_intake = Pin(15, Pin.IN, Pin.PULL_DOWN)
+output = Pin(0, Pin.OUT)
+buzzer = PWM2(output)
+buzzer.duty_u16(0)
+buzzer.freq(300)
+correct = [
+  C6
+  C8
+]
+song = [
+  
+]
+
+while True: 
+  if signal_intake.value() == 1:
+    for i in song: 
+      if i == 0:
+        buzzer.duty_u16(0)  
+      else:  
+        buzzer.freq(i)   
+        buzzer.duty_u16(32768)  
+      utime.sleep(0.15)
